@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .background {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./images/back.webp);
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            width: 100%;
+            background-size: cover;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .capital {
+            width: 100%;
+        }
+
+        .capital img {
+            max-width: 500px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .certificates {
+            display: grid;
+            grid-gap: 12px;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            justify-content: space-around;
+            place-items: center;
+            margin-top: 20px;
+        }
+
+        .certificates img {
+            width: 200px;
+            border: 1px solid #ccc;
+        }
+
+        .photos {
+            display: grid;
+            grid-gap: 12px;
+            justify-content: space-around;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            margin-top: 40px;
+            place-items: center;
+        }
+
+        .photos img {
+            width: 200px;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+
+        .capital img:hover,
+        .certificates img:hover,
+        .photos img:hover {
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .certificates {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+
+            .photos {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup-overlay img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-overlay.active img {
+            transform: scale(1);
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const popup = document.getElementById("popup");
+            const popupImg = document.getElementById("popup-img");
+            const images = document.querySelectorAll(".photos img");
+            const certificates = document.querySelectorAll(".certificates img");
+            const capital = document.querySelectorAll(".capital img");
+
+            [...images, ...certificates, ...capital].forEach(img => {
+                img.addEventListener("click", function () {
+                    popupImg.src = this.src;
+                    popup.classList.add("active");
+                });
+            });
+
+            popup.addEventListener("click", function () {
+                popup.classList.remove("active");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="background">
+        <div class="capital"><img src="./images/capital-1.png" /></div>
+        <div class="certificates">
+            <img src="./images/inno.png" />
+            <img src="./images/tekom.png" />
+            <img src="./images/sever.png" />
+            <img src="./images/eldvigo.png" />
+            <img src="./images/held.jpg" />
+        </div>
+        <div class="photos">
+            <img src="./images/1.jpg" />
+            <img src="./images/2.jpg" />
+            <img src="./images/4.jpg" />
+            <img src="./images/5.jpg" />
+            <img src="./images/11.jpg" />
+            <img src="./images/6.jpg" />
+            <img src="./images/8.jpg" />
+            <img src="./images/9.jpg" />
+            <img src="./images/3.jpg" />
+            <img src="./images/10.jpg" />
+            <img src="./images/7.jpg" />
+            <img src="./images/12.jpg" />
+            <img src="./images/13.jpg" />
+        </div>
+    </div>
+    <div class="popup-overlay" id="popup">
+        <img id="popup-img" src="" alt="Popup Image">
+    </div>
+</body>
+
+</html>

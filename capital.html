@@ -3,6 +3,13 @@
 
 <head>
     <style>
+        * {
+            scrollbar-width: thin;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: auto;
+        }
+
         html,
         body {
             width: 100%;
@@ -15,13 +22,27 @@
         }
 
         .background {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./images/back.webp);
-            background-repeat: no-repeat;
-            background-position: 50% 50%;
             width: 100%;
-            background-size: cover;
             padding: 0;
             margin: 0;
+        }
+
+        .background1 {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./images/back10.jpg);
+            background-repeat: no-repeat;
+            background-position: 0 30%;
+            background-size: cover;
+        }
+
+        .background2 {
+            background-image: none;
+        }
+
+        .background3 {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./images/back5.jpg);
+            background-repeat: no-repeat;
+            background-position: 0 50%;
+            background-size: cover;
         }
 
         .capital {
@@ -41,8 +62,8 @@
 
         .certificates {
             display: grid;
-            width: 90%;
-            margin: 20px auto 60px auto;
+            width: 70%;
+            margin: 40px auto 50px auto;
             grid-gap: 24px;
             grid-template-columns: repeat(5, 1fr);
             justify-content: space-around;
@@ -123,6 +144,7 @@
             align-items: center;
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
@@ -138,10 +160,28 @@
         .popup-overlay.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: all;
         }
 
         .popup-overlay.active img {
             transform: scale(1);
+        }
+
+        .popup img {
+            max-width: 96%;
+            max-height: 96%;
+            transition: transform 0.4s ease-in-out, opacity 0.3s;
+            border-radius: 10px;
+        }
+
+        .popup img.next {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .popup img.prev {
+            transform: translateX(-100%);
+            opacity: 0;
         }
     </style>
     <script>
@@ -152,76 +192,106 @@
             const certificates = document.querySelectorAll(".certificates img");
             const capital = document.querySelectorAll(".capital img");
 
-            [...images, ...certificates, ...capital].forEach(img => {
+            capital.forEach((img, index) => {
                 img.addEventListener("click", function () {
                     popupImg.src = this.src;
                     popup.classList.add("active");
                 });
             });
 
-            popup.addEventListener("click", function () {
-                popup.classList.remove("active");
+            certificates.forEach((img, index) => {
+                img.addEventListener("click", function () {
+                    popupImg.src = this.src;
+                    popup.classList.add("active");
+                });
             });
+
+            images.forEach((img, index) => {
+                img.addEventListener("click", function () {
+                    popupImg.src = this.src;
+                    popup.classList.add("active");
+                });
+            });
+
+            function closePopup() {
+                popup.classList.remove("active");
+            }
+
+            popup.addEventListener("click", closePopup);
+
+            function handleSwipe() {
+                let diff = startX - endX;
+
+                if (diff > 50) {
+                    showNextImage();
+                } else if (diff < -50) {
+                    showPrevImage();
+                }
+            }
         });
     </script>
 </head>
 
 <body>
-    <div class="background">
-        <div class="capital transformable-on-hover"><img src="./images/capital-1.png" /></div>
+    <div class="background background1">
+        <div class="capital transformable-on-hover"><img src="./images/capital-1.png" data-index="0" /></div>
+    </div>
+    <div class="background background2">
         <div class="certificates transformable-on-hover">
-            <img src="./images/inno.png" />
-            <img src="./images/tekom.png" />
-            <img src="./images/sever.png" />
-            <img src="./images/eldvigo.png" />
-            <img src="./images/held.jpg" />
+            <img src="./images/inno.png" data-index="1" />
+            <img src="./images/tekom.png" data-index="2" />
+            <img src="./images/sever.png" data-index="3" />
+            <img src="./images/eldvigo.png" data-index="4" />
+            <img src="./images/held.jpg" data-index="5" />
         </div>
+    </div>
+    <div class="background background3">
         <div class="photos transformable-on-hover">
-            <img src="./images/1.jpg" />
-            <img src="./images/2.jpg" />
-            <img src="./images/4.jpg" />
-            <img src="./images/5.jpg" />
-            <img src="./images/11.jpg" />
-            <img src="./images/6.jpg" />
-            <img src="./images/8.jpg" />
-            <img src="./images/9.jpg" />
-            <img src="./images/3.jpg" />
-            <img src="./images/10.jpg" />
-            <img src="./images/7.jpg" />
-            <img src="./images/12.jpg" />
-            <img src="./images/13.jpg" />
-            <img src="./images/14.jpg" />
-            <img src="./images/15.jpg" />
-            <img src="./images/16.jpg" />
-            <img src="./images/17.jpg" />
-            <img src="./images/18.jpg" />
-            <img src="./images/19.jpg" />
-            <img src="./images/20.jpg" />
-            <img src="./images/21.jpg" />
-            <img src="./images/22.jpg" />
-            <img src="./images/23.jpg" />
-            <img src="./images/24.jpg" />
-            <img src="./images/25.jpg" />
-            <img src="./images/26.jpg" />
-            <img src="./images/27.jpg" />
-            <img src="./images/28.jpg" />
-            <img src="./images/29.jpg" />
-            <img src="./images/30.jpg" />
-            <img src="./images/31.jpg" />
-            <img src="./images/32.jpg" />
-            <img src="./images/33.jpg" />
-            <img src="./images/34.jpg" />
-            <img src="./images/35.jpg" />
-            <img src="./images/36.jpg" />
-            <img src="./images/37.jpg" />
-            <img src="./images/38.jpg" />
-            <img src="./images/39.jpg" />
-            <img src="./images/40.jpg" />
-            <img src="./images/41.jpg" />
+            <img src="./images/1.jpg" data-index="6" />
+            <img src="./images/2.jpg" data-index="7" />
+            <img src="./images/4.jpg" data-index="8" />
+            <img src="./images/5.jpg" data-index="9" />
+            <img src="./images/11.jpg" data-index="10" />
+            <img src="./images/6.jpg" data-index="11" />
+            <img src="./images/8.jpg" data-index="12" />
+            <img src="./images/9.jpg" data-index="13" />
+            <img src="./images/3.jpg" data-index="14" />
+            <img src="./images/10.jpg" data-index="15" />
+            <img src="./images/7.jpg" data-index="16" />
+            <img src="./images/12.jpg" data-index="17" />
+            <img src="./images/13.jpg" data-index="18" />
+            <img src="./images/14.jpg" data-index="19" />
+            <img src="./images/15.jpg" data-index="20" />
+            <img src="./images/16.jpg" data-index="21" />
+            <img src="./images/17.jpg" data-index="22" />
+            <img src="./images/18.jpg" data-index="23" />
+            <img src="./images/19.jpg" data-index="24" />
+            <img src="./images/20.jpg" data-index="25" />
+            <img src="./images/21.jpg" data-index="26" />
+            <img src="./images/22.jpg" data-index="27" />
+            <img src="./images/23.jpg" data-index="28" />
+            <img src="./images/24.jpg" data-index="29" />
+            <img src="./images/25.jpg" data-index="30" />
+            <img src="./images/26.jpg" data-index="31" />
+            <img src="./images/27.jpg" data-index="32" />
+            <img src="./images/28.jpg" data-index="33" />
+            <img src="./images/29.jpg" data-index="34" />
+            <img src="./images/30.jpg" data-index="35" />
+            <img src="./images/31.jpg" data-index="36" />
+            <img src="./images/32.jpg" data-index="37" />
+            <img src="./images/33.jpg" data-index="38" />
+            <img src="./images/34.jpg" data-index="39" />
+            <img src="./images/35.jpg" data-index="40" />
+            <img src="./images/36.jpg" data-index="41" />
+            <img src="./images/37.jpg" data-index="42" />
+            <img src="./images/38.jpg" data-index="43" />
+            <img src="./images/39.jpg" data-index="44" />
+            <img src="./images/40.jpg" data-index="45" />
+            <img src="./images/41.jpg" data-index="46" />
         </div>
     </div>
     <div class="popup-overlay" id="popup">
-        <img id="popup-img" src="" alt="Popup Image">
+        <img id="popup-img" src="" />
     </div>
 </body>
 

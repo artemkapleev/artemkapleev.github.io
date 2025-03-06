@@ -26,42 +26,63 @@
 
         .capital {
             width: 100%;
+            margin-bottom: 60px;
         }
 
         .capital img {
             max-width: 500px;
             margin: 20px auto;
             display: block;
+            /* aspect-ratio: 1 / 1.41; */
+            border: 1px solid #ccc;
+            object-fit: cover;
+            border-radius: 4px;
         }
 
         .certificates {
             display: grid;
-            grid-gap: 12px;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            width: 90%;
+            margin: 20px auto 60px auto;
+            grid-gap: 24px;
+            grid-template-columns: repeat(5, 1fr);
             justify-content: space-around;
             place-items: center;
-            margin-top: 20px;
         }
 
         .certificates img {
             width: 200px;
+            aspect-ratio: 1 / 1.41;
             border: 1px solid #ccc;
+            object-fit: cover;
+            border-radius: 4px;
         }
 
         .photos {
+            width: 80%;
+            margin: 0 auto;
             display: grid;
-            grid-gap: 12px;
-            justify-content: space-around;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 22px;
+            grid-template-columns: repeat(5, 1fr);
             margin-top: 40px;
             place-items: center;
-            margin-bottom: 200px;
+            margin-bottom: 500px;
         }
 
         .photos img {
-            width: 200px;
+            width: 230px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
             height: auto;
             border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .transformable-on-hover img {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .transformable-on-hover img:hover {
+            transform: scale(1.02);
         }
 
         .capital img:hover,
@@ -70,13 +91,23 @@
             cursor: pointer;
         }
 
-        @media only screen and (max-width: 1000px) {
+        @media only screen and (max-width: 1500px) {
             .certificates {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: repeat(4, 1fr);
             }
 
             .photos {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .certificates {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .photos {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -96,8 +127,8 @@
         }
 
         .popup-overlay img {
-            max-width: 90%;
-            max-height: 90vh;
+            max-width: 98vw;
+            max-height: 98vh;
             border-radius: 10px;
             box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
             transform: scale(0.8);
@@ -137,15 +168,15 @@
 
 <body>
     <div class="background">
-        <div class="capital"><img src="./images/capital-1.png" /></div>
-        <div class="certificates">
+        <div class="capital transformable-on-hover"><img src="./images/capital-1.png" /></div>
+        <div class="certificates transformable-on-hover">
             <img src="./images/inno.png" />
             <img src="./images/tekom.png" />
             <img src="./images/sever.png" />
             <img src="./images/eldvigo.png" />
             <img src="./images/held.jpg" />
         </div>
-        <div class="photos">
+        <div class="photos transformable-on-hover">
             <img src="./images/1.jpg" />
             <img src="./images/2.jpg" />
             <img src="./images/4.jpg" />
@@ -159,6 +190,34 @@
             <img src="./images/7.jpg" />
             <img src="./images/12.jpg" />
             <img src="./images/13.jpg" />
+            <img src="./images/14.jpg" />
+            <img src="./images/15.jpg" />
+            <img src="./images/16.jpg" />
+            <img src="./images/17.jpg" />
+            <img src="./images/18.jpg" />
+            <img src="./images/19.jpg" />
+            <img src="./images/20.jpg" />
+            <img src="./images/21.jpg" />
+            <img src="./images/22.jpg" />
+            <img src="./images/23.jpg" />
+            <img src="./images/24.jpg" />
+            <img src="./images/25.jpg" />
+            <img src="./images/26.jpg" />
+            <img src="./images/27.jpg" />
+            <img src="./images/28.jpg" />
+            <img src="./images/29.jpg" />
+            <img src="./images/30.jpg" />
+            <img src="./images/31.jpg" />
+            <img src="./images/32.jpg" />
+            <img src="./images/33.jpg" />
+            <img src="./images/34.jpg" />
+            <img src="./images/35.jpg" />
+            <img src="./images/36.jpg" />
+            <img src="./images/37.jpg" />
+            <img src="./images/38.jpg" />
+            <img src="./images/39.jpg" />
+            <img src="./images/40.jpg" />
+            <img src="./images/41.jpg" />
         </div>
     </div>
     <div class="popup-overlay" id="popup">

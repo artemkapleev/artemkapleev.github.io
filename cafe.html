@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кафе "У совы Глаши"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            /* background: url('./background.jpg    ') center/cover fixed; */
+            background-color: #f5f0e8;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: url('./background.jpg') center/cover fixed;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(139, 90, 43, 0.95);
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d4790d;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .cart-button:hover {
+            background: #b86a0c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .cart-count {
+            background: #c92a2a;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+
+        .menu-grid {
+            margin-top: 250px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .item-image {
+            width: 218px;
+            height: 212px;
+            margin: 0 auto 15px;
+            background: url('./menu.jpg') no-repeat;
+            background-size: auto;
+            border-radius: 10px;
+        }
+
+        /* Координаты для каждого блюда - настройте под свою картинку */
+        .item-image-1 { background-position: 0px 0px; }
+        .item-image-2 { background-position: -212px 0px; }
+        .item-image-3 { background-position: -423px 0px; }
+        .item-image-4 { background-position: 0px -208px }
+        .item-image-5 { background-position: -212px -208px; }
+        .item-image-6 { background-position: -423px -208px; }
+        .item-image-7 { background-position: 0px -422px; }
+        .item-image-8 { background-position: -211px -422px; }
+        .item-image-9 { background-position: -422px -422px; }
+        .item-image-10 { background-position: 0px -639px; }
+        .item-image-11 { background-position: -211px -639px; }
+        .item-image-12 { background-position: -422px -639px; }
+        .item-image-13 { background-position: 0px -835px; }
+        .item-image-14 { background-position: -212px -836px; }
+        .item-image-15 { background-position: -635px -838px; }
+        .item-image-16 { background-position: -635px -838px; }
+        .item-image-17 { background-position: 0px -1033px; }
+        .item-image-18 { background-position: -211px -1033px; }
+        .item-image-19 { background-position: -500px -1033px; width: 290px; }
+
+        .item-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #5c3d2e;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .item-price {
+            font-size: 1.4em;
+            color: #d4790d;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #8b5a2b;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.2s;
+        }
+
+        .quantity-btn:hover {
+            background: #6d4623;
+        }
+
+        .quantity-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+
+        .add-to-cart:hover {
+            background: #218838;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #666;
+        }
+
+        .remove-item {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-item:hover {
+            background: #c82333;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #8b5a2b;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .summary-row.total {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #8b5a2b;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #218838;
+        }
+
+        .payment-processing {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #8b5a2b;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .receipt {
+            background: white;
+            padding: 30px;
+            border: 2px dashed #8b5a2b;
+            border-radius: 10px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #8b5a2b;
+        }
+
+        .receipt-header h2 {
+            color: #8b5a2b;
+            margin-bottom: 10px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .print-btn {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .print-btn:hover {
+            background: #0056b3;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <button class="cart-button" onclick="openCart()">
+        Корзина <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <div class="container">
+        <!-- <header>
+            <h1>Кафе "У совы Глаши"</h1>
+            <p>Добро пожаловать в наше уютное кафе!</p>
+        </header> -->
+
+        <div class="menu-grid" id="menuGrid"></div>
+    </div>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCart()">&times;</span>
+            <div id="cartContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const menuItems = [
+            { id: 1, name: 'Цветочек', price: 40, quantity: 0 },
+            { id: 2, name: 'Радуга', price: 5, quantity: 0 },
+            { id: 3, name: 'Путершок', price: 52, quantity: 0 },
+            { id: 4, name: 'Кофе на выбор', price: 60, quantity: 0 },
+            { id: 5, name: 'Вода', price: 20, quantity: 0 },
+            { id: 6, name: 'Чай', price: 20, quantity: 0 },
+            { id: 7, name: 'Мохито', price: 70, quantity: 0 },
+            { id: 8, name: 'Какао', price: 20, quantity: 0 },
+            { id: 9, name: 'Светофор (маленький)', price: 20, quantity: 0 },
+            { id: 10, name: 'Светофор (большой)', price: 50, quantity: 0 },
+            { id: 11, name: 'Пузёк под шубой (маленький)', price: 40, quantity: 0 },
+            { id: 12, name: 'Пузёк под шубой (большой)', price: 70, quantity: 0 },
+            { id: 13, name: 'Импровиз (маленький)', price: 2, quantity: 0 },
+            { id: 14, name: 'Импровиз (большой)', price: 10, quantity: 0 },
+            { id: 15, name: 'Фруктовый салат (маленький)', price: 20, quantity: 0 },
+            { id: 16, name: 'Фруктовый салат (большой)', price: 50, quantity: 0 },
+            { id: 17, name: 'Помидор и Огурец', price: 10, quantity: 0 },
+            { id: 18, name: 'Долма', price: 40, quantity: 0 },
+            { id: 19, name: 'Что хотите', price: 100, quantity: 0 }
+        ];
+
+        let cart = [];
+
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = menuItems.map(item => `
+                <div class="menu-item">
+                    <div class="item-image item-image-${item.id}"></div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">${item.price} TL</div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="changeQuantity(${item.id}, -1)">-</button>
+                            <span class="quantity-display" id="qty-${item.id}">0</span>
+                            <button class="quantity-btn" onclick="changeQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${item.id})">В корзину</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeQuantity(id, delta) {
+            const item = menuItems.find(i => i.id === id);
+            item.quantity = Math.max(0, item.quantity + delta);
+            document.getElementById(`qty-${id}`).textContent = item.quantity;
+        }
+
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (item.quantity === 0) {
+                item.quantity = 1;
+                document.getElementById(`qty-${id}`).textContent = 1;
+            }
+            
+            const cartItem = cart.find(c => c.id === id);
+            if (cartItem) {
+                cartItem.quantity += item.quantity;
+            } else {
+                cart.push({ ...item });
+            }
+            
+            item.quantity = 0;
+            document.getElementById(`qty-${id}`).textContent = 0;
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'flex';
+            renderCart();
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function renderCart() {
+            const content = document.getElementById('cartContent');
+            
+            if (cart.length === 0) {
+                content.innerHTML = '<div class="empty-cart"><h2>Корзина пуста</h2></div>';
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const discount = subtotal > 200 ? subtotal * 0.1 : 0;
+            const total = subtotal - discount;
+
+            content.innerHTML = `
+                <h2 style="margin-bottom: 20px; color: #8b5a2b;">Ваш заказ</h2>
+                ${cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.quantity} x ${item.price} TL = ${item.quantity * item.price} TL</div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">Удалить</button>
+                    </div>
+                `).join('')}
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Промежуточный итог:</span>
+                        <span>${subtotal.toFixed(2)} TL</span>
+                    </div>
+                    ${discount > 0 ? `
+                        <div class="summary-row" style="color: #28a745;">
+                            <span>Скидка (10%):</span>
+                            <span>-${discount.toFixed(2)} TL</span>
+                        </div>
+                    ` : ''}
+                    <div class="summary-row total">
+                        <span>Итого:</span>
+                        <span>${total.toFixed(2)} TL</span>
+                    </div>
+                </div>
+                <button class="checkout-btn" onclick="processPayment()">Оплатить</button>
+            `;
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartCount();
+            renderCart();
+        }
+
+        function processPayment() {
+            const content = document.getElementById('cartContent');
+            content.innerHTML = `
+                <div class="payment-processing">
+                    <h2>Обработка платежа...</h2>
+                    <div class="spinner"></div>
+                    <p>Связь с банком</p>
+                    <p id="processingStatus">Инициализация...</p>
+                </div>
+            `;
+
+            const statuses = [
+                'Подключение к банку...',
+                'Проверка данных...',
+                'Авторизация платежа...',
+                'Подтверждение транзакции...',
+                'Завершение...'
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                if (step < statuses.length) {
+                    document.getElementById('processingStatus').textContent = statuses[step];
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    showReceipt();
+                }
+            }, 1000);
+        }
+
+        function showReceipt() {
+            const content = document.getElementById('cartContent');
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const discount = subtotal > 200 ? subtotal * 0.1 : 0;
+            const total = subtotal - discount;
+            const now = new Date();
+            const receiptNumber = Math.floor(Math.random() * 100000);
+
+            content.innerHTML = `
+                <div class="receipt">
+                    <div class="receipt-header">
+                        <h2>Кафе "У совы Глаши"</h2>
+                        <p>Чек № ${receiptNumber}</p>
+                        <p>${now.toLocaleDateString('ru-RU')} ${now.toLocaleTimeString('ru-RU')}</p>
+                    </div>
+                    ${cart.map(item => `
+                        <div class="receipt-item">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>${(item.price * item.quantity).toFixed(2)} TL</span>
+                        </div>
+                    `).join('')}
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #8b5a2b;">
+                        <div class="receipt-item">
+                            <strong>Промежуточный итог:</strong>
+                            <strong>${subtotal.toFixed(2)} TL</strong>
+                        </div>
+                        ${discount > 0 ? `
+                            <div class="receipt-item" style="color: #28a745;">
+                                <strong>Скидка (10%):</strong>
+                                <strong>-${discount.toFixed(2)} TL</strong>
+                            </div>
+                        ` : ''}
+                        <div class="receipt-item" style="font-size: 1.3em; margin-top: 10px;">
+                            <strong>ИТОГО:</strong>
+                            <strong>${total.toFixed(2)} TL</strong>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p style="color: #28a745; font-weight: bold; font-size: 1.2em;">Оплата успешно проведена</p>
+                        <p style="margin-top: 10px;">Спасибо за ваш заказ!</p>
+                    </div>
+                    <button class="print-btn" onclick="printReceipt()">Печать чека</button>
+                </div>
+            `;
+
+            cart = [];
+            updateCartCount();
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        renderMenu();
+    </script>
+</body>
+</html>

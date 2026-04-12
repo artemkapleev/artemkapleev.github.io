@@ -1,12 +1,491 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ru" data-theme="light">
 <head>
-    <meta http-equiv="refresh" content="0; URL='http://46.151.31.245:4000/'" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Домашние работы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ── */
+    :root {
+      --bg:        #f5f0e8;
+      --surface:   #ffffff;
+      --border:    #e2d9cc;
+      --text:      #1a1410;
+      --muted:     #7a6f63;
+      --accent:    #c0623a;
+      --accent2:   #4a7c5f;
+      --shadow:    0 2px 16px rgba(0,0,0,0.07);
+      --radius:    12px;
+      --toggle-bg: #e2d9cc;
+    }
+    [data-theme="dark"] {
+      --bg:        #161310;
+      --surface:   #211d19;
+      --border:    #3a3228;
+      --text:      #f0e8dc;
+      --muted:     #9a8e80;
+      --accent:    #e07a52;
+      --accent2:   #6aac85;
+      --shadow:    0 2px 20px rgba(0,0,0,0.35);
+      --toggle-bg: #3a3228;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background .3s, color .3s;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Layout ── */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background .3s, border-color .3s;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      gap: 12px;
+    }
+    .site-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .site-title span {
+      display: block;
+      font-size: 0.68em;
+      font-weight: 400;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── Theme Toggle ── */
+    .theme-btn {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--toggle-bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, border-color .2s, transform .15s;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .theme-btn:hover { transform: rotate(20deg) scale(1.1); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 52px 0 32px;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* ── Stats bar ── */
+    .stats {
+      display: flex;
+      gap: 28px;
+      margin: 32px 0 40px;
+      padding: 18px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; gap: 2px; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .stat-sep { width: 1px; background: var(--border); align-self: stretch; margin: 0 4px; }
+
+    /* ── Section title ── */
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+    .section-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+    .section-head .count {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    /* ── Homework cards ── */
+    .hw-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 60px;
+    }
+    .hw-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      gap: 10px 16px;
+      align-items: start;
+      transition: box-shadow .2s, transform .15s, border-color .2s;
+      animation: fadeUp .4s ease both;
+    }
+    .hw-card:hover {
+      box-shadow: 0 6px 28px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hw-card:nth-child(1) { animation-delay: .05s; }
+    .hw-card:nth-child(2) { animation-delay: .10s; }
+    .hw-card:nth-child(3) { animation-delay: .15s; }
+    .hw-card:nth-child(4) { animation-delay: .20s; }
+    .hw-card:nth-child(5) { animation-delay: .25s; }
+
+    .hw-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .hw-date {
+      font-size: 0.73rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .hw-subject {
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 2px 9px;
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .hw-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.3;
+      grid-column: 1;
+    }
+
+    /* Badges / actions column */
+    .hw-actions {
+      grid-row: 1 / 3;
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, color .15s, border-color .15s, transform .1s;
+    }
+    .btn:hover { transform: scale(1.03); }
+    .btn-view {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-view:hover { background: color-mix(in srgb, var(--accent) 85%, #000); }
+    .btn-dl:hover  { background: var(--surface); border-color: var(--accent2); color: var(--accent2); }
+    .btn-print:hover { background: var(--surface); border-color: var(--muted); }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 14px; }
+    .empty h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
+    .empty p { font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 0;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 540px) {
+      .hw-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .hw-actions {
+        grid-row: auto;
+        grid-column: auto;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+      .stats { gap: 16px; }
+      .stat-sep { display: none; }
+    }
+  </style>
 </head>
-
 <body>
-    Открываем сайт с домашней работой...
-</body>
 
+<header>
+  <div class="wrapper">
+    <div class="header-inner">
+      <div class="site-title">
+        Домашние работы
+        <span>Портфолио ученика</span>
+      </div>
+      <button class="theme-btn" id="themeBtn" title="Переключить тему" aria-label="Переключить тему">
+        🌙
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrapper">
+  <section class="hero">
+    <p class="hero-label">Учебный портфолио</p>
+    <h1>Работы<br>ученика</h1>
+    <p>Здесь собраны выполненные домашние задания. Каждую работу можно открыть, скачать или распечатать.</p>
+  </section>
+
+  <div class="stats" id="statsBar">
+    <div class="stat">
+      <span class="stat-num" id="totalCount">—</span>
+      <span class="stat-label">Работ всего</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-num" id="monthCount">—</span>
+      <span class="stat-label">В этом месяце</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-num" id="lastDate">—</span>
+      <span class="stat-label">Последняя работа</span>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Все работы</h2>
+    <span class="count" id="listCount">0 файлов</span>
+  </div>
+
+  <div class="hw-list" id="hwList">
+    <div class="empty">
+      <div class="empty-icon">📂</div>
+      <h3>Загрузка...</h3>
+      <p>Список работ формируется</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrapper">
+    Домашние работы · обновляется через git push
+  </div>
+</footer>
+
+<script>
+/* ─── Theme toggle ─── */
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+const saved = localStorage.getItem('theme') || 'light';
+html.setAttribute('data-theme', saved);
+themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+themeBtn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+/* ─── Homework data ───
+   Edit the array below to add new assignments.
+   Fields:
+     date    – "YYYY-MM-DD"   (used for sorting & display)
+     name    – title shown on the card
+     subject – short label (e.g. "Математика")
+     file    – path to PDF relative to index.html
+─────────────────────── */
+const homeworks = [
+  {
+    date: "2026-04-12",
+    name: "Задачи по математике — тема «Скорость. Время. Расстояние»",
+    subject: "Математика",
+    file: "pdfs/2026-04-12-math.pdf"
+  },
+  {
+    date: "2026-04-12",
+    name: "Задания по русскому языку — «Местоимения»",
+    subject: "Русский язык",
+    file: "pdfs/2026-04-12-russian.pdf"
+  },
+];
+
+/* ─── Render ─── */
+function formatDate(str) {
+  const d = new Date(str + 'T00:00:00');
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function renderList() {
+  const sorted = [...homeworks].sort((a, b) => b.date.localeCompare(a.date));
+  const list = document.getElementById('hwList');
+  const now = new Date();
+  const thisMonth = now.getMonth();
+  const thisYear = now.getFullYear();
+
+  if (sorted.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">📂</div>
+        <h3>Пока нет работ</h3>
+        <p>Добавьте PDF-файлы и обновите массив <code>homeworks</code> в index.html</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = sorted.map(hw => {
+    const d = new Date(hw.date + 'T00:00:00');
+    const inMonth = d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    return `
+    <div class="hw-card">
+      <div class="hw-meta">
+        <span class="hw-date">${formatDate(hw.date)}</span>
+        <span class="hw-subject">${hw.subject}</span>
+      </div>
+      <div class="hw-name">${hw.name}</div>
+      <div class="hw-actions">
+        <a class="btn btn-view" href="${hw.file}" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть
+        </a>
+        <a class="btn btn-dl" href="${hw.file}" download>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Скачать
+        </a>
+        <button class="btn btn-print" onclick="printPdf('${hw.file}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Печать
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  /* Stats */
+  const monthHw = sorted.filter(hw => {
+    const d = new Date(hw.date + 'T00:00:00');
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  document.getElementById('totalCount').textContent = sorted.length;
+  document.getElementById('monthCount').textContent = monthHw.length;
+  document.getElementById('lastDate').textContent = formatDate(sorted[0].date).split(' ').slice(0,2).join(' ');
+  document.getElementById('listCount').textContent = sorted.length + ' ' + plural(sorted.length, 'файл','файла','файлов');
+}
+
+function plural(n, a, b, c) {
+  const m = n % 100;
+  if (m >= 11 && m <= 19) return c;
+  const k = n % 10;
+  if (k === 1) return a;
+  if (k >= 2 && k <= 4) return b;
+  return c;
+}
+
+function printPdf(url) {
+  const w = window.open(url, '_blank');
+  if (w) {
+    w.addEventListener('load', () => { w.focus(); w.print(); });
+  }
+}
+
+renderList();
+</script>
+</body>
 </html>

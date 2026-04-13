@@ -272,6 +272,53 @@
     .btn-dl:hover  { background: var(--surface); border-color: var(--accent2); color: var(--accent2); }
     .btn-print:hover { background: var(--surface); border-color: var(--muted); }
 
+    /* ── Filter bar ── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s, transform .1s;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.04);
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Make hw-subject clickable */
+    .hw-subject {
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    .hw-subject:hover {
+      opacity: 0.75;
+      transform: scale(1.05);
+    }
+
+    /* Card hidden by filter */
+    .hw-card.hidden {
+      display: none;
+    }
+
     /* ── Empty state ── */
     .empty {
       text-align: center;
@@ -351,9 +398,11 @@
   </div>
 
   <div class="section-head">
-    <h2>Все работы</h2>
+    <h2 id="sectionTitle">Все работы</h2>
     <span class="count" id="listCount">0 файлов</span>
   </div>
+
+  <div class="filter-bar" id="filterBar"></div>
 
   <div class="hw-list" id="hwList">
     <div class="empty">
@@ -432,6 +481,46 @@ const homeworks = [
   }
 ];
 
+/* ─── Filter state ─── */
+let activeFilter = 'all';
+
+/* ─── Build filter bar ─── */
+function buildFilterBar() {
+  const subjects = ['all', ...new Set(homeworks.map(h => h.subject).sort())];
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = subjects.map(s => `
+    <button class="filter-btn${s === 'all' ? ' active' : ''}"
+            data-subject="${s}"
+            onclick="setFilter('${s}')">
+      ${s === 'all' ? 'Все работы' : s}
+    </button>`).join('');
+}
+
+function setFilter(subject) {
+  activeFilter = subject;
+
+  /* Update buttons */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.subject === subject);
+  });
+
+  /* Update section title */
+  document.getElementById('sectionTitle').textContent =
+    subject === 'all' ? 'Все работы' : subject;
+
+  /* Show/hide cards */
+  const cards = document.querySelectorAll('.hw-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const match = subject === 'all' || card.dataset.subject === subject;
+    card.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+
+  document.getElementById('listCount').textContent =
+    visible + ' ' + plural(visible, 'файл', 'файла', 'файлов');
+}
+
 /* ─── Render ─── */
 function formatDate(str) {
   const d = new Date(str + 'T00:00:00');
@@ -457,12 +546,11 @@ function renderList() {
 
   list.innerHTML = sorted.map(hw => {
     const d = new Date(hw.date + 'T00:00:00');
-    const inMonth = d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     return `
-    <div class="hw-card">
+    <div class="hw-card" data-subject="${hw.subject}">
       <div class="hw-meta">
         <span class="hw-date">${formatDate(hw.date)}</span>
-        <span class="hw-subject">${hw.subject}</span>
+        <span class="hw-subject" onclick="setFilter('${hw.subject}')" title="Фильтр: ${hw.subject}">${hw.subject}</span>
       </div>
       <div class="hw-name">${hw.name}</div>
       <div class="hw-actions">
@@ -509,6 +597,7 @@ function printPdf(url) {
   }
 }
 
+buildFilterBar();
 renderList();
 </script>
 </body>

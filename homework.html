@@ -1,452 +1,564 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Домашние работы</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="icon" href="./images/logos/favicon.svg" type="image/svg+xml">
-  <link rel="icon" type="image/png" href="./images/logos/favicon.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./images/logos/apple-favicon.png">
-  <style>
-    /* ── Variables ── */
-    :root {
-      --bg:        #f5f0e8;
-      --surface:   #ffffff;
-      --border:    #e2d9cc;
-      --text:      #1a1410;
-      --muted:     #7a6f63;
-      --accent:    #c0623a;
-      --accent2:   #4a7c5f;
-      --shadow:    0 2px 16px rgba(0,0,0,0.07);
-      --radius:    12px;
-      --toggle-bg: #e2d9cc;
-    }
-    [data-theme="dark"] {
-      --bg:        #161310;
-      --surface:   #211d19;
-      --border:    #3a3228;
-      --text:      #f0e8dc;
-      --muted:     #9a8e80;
-      --accent:    #e07a52;
-      --accent2:   #6aac85;
-      --shadow:    0 2px 20px rgba(0,0,0,0.35);
-      --toggle-bg: #3a3228;
-    }
-
-    /* ── Reset ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background .3s, color .3s;
-    }
-    a { color: inherit; text-decoration: none; }
-
-    /* ── Layout ── */
-    .wrapper {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ── Header ── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transition: background .3s, border-color .3s;
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 0;
-      gap: 12px;
-    }
-    .site-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.1rem, 3vw, 1.5rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.15;
-    }
-    .site-title span {
-      display: block;
-      font-size: 0.68em;
-      font-weight: 400;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    /* ── Theme Toggle ── */
-    .theme-btn {
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--toggle-bg);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .2s, border-color .2s, transform .15s;
-      color: var(--muted);
-      font-size: 18px;
-    }
-    .theme-btn:hover { transform: rotate(20deg) scale(1.1); }
-
-    /* ── Hero ── */
-    .hero {
-      padding: 52px 0 32px;
-    }
-    .hero-label {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 6vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-    }
-    .hero p {
-      font-size: 0.98rem;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.65;
-    }
-
-    /* ── Stats bar ── */
-    .stats {
-      display: flex;
-      gap: 28px;
-      margin: 32px 0 40px;
-      padding: 18px 22px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      flex-wrap: wrap;
-    }
-    .stat { display: flex; flex-direction: column; gap: 2px; }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
-    .stat-sep { width: 1px; background: var(--border); align-self: stretch; margin: 0 4px; }
-
-    /* ── Section title ── */
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      gap: 12px;
-    }
-    .section-head h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 600;
-    }
-    .section-head .count {
-      font-size: 0.78rem;
-      color: var(--muted);
-      padding: 3px 10px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-    }
-
-    /* ── Homework cards ── */
-    .hw-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding-bottom: 60px;
-    }
-    .hw-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto auto;
-      gap: 10px 16px;
-      align-items: start;
-      transition: box-shadow .2s, transform .15s, border-color .2s;
-      animation: fadeUp .4s ease both;
-    }
-    .hw-card:hover {
-      box-shadow: 0 6px 28px rgba(0,0,0,0.12);
-      transform: translateY(-2px);
-      border-color: var(--accent);
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .hw-card:nth-child(1) { animation-delay: .05s; }
-    .hw-card:nth-child(2) { animation-delay: .10s; }
-    .hw-card:nth-child(3) { animation-delay: .15s; }
-    .hw-card:nth-child(4) { animation-delay: .20s; }
-    .hw-card:nth-child(5) { animation-delay: .25s; }
-
-    .hw-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .hw-date {
-      font-size: 0.73rem;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 0.03em;
-    }
-    .hw-subject {
-      font-size: 0.68rem;
-      font-weight: 500;
-      padding: 2px 9px;
-      border-radius: 20px;
-      background: color-mix(in srgb, var(--accent) 12%, transparent);
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .hw-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.08rem;
-      font-weight: 600;
-      line-height: 1.3;
-      grid-column: 1;
-    }
-
-    /* Badges / actions column */
-    .hw-actions {
-      grid-row: 1 / 3;
-      grid-column: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 7px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background .15s, color .15s, border-color .15s, transform .1s;
-    }
-    .btn:hover { transform: scale(1.03); }
-    .btn-view {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .btn-view:hover { background: color-mix(in srgb, var(--accent) 85%, #000); }
-    .btn-dl:hover  { background: var(--surface); border-color: var(--accent2); color: var(--accent2); }
-    .btn-print:hover { background: var(--surface); border-color: var(--muted); }
-
-    /* ── Filter bar ── */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-    .filter-btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.76rem;
-      font-weight: 500;
-      padding: 5px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      transition: background .15s, color .15s, border-color .15s, transform .1s;
-      white-space: nowrap;
-      letter-spacing: 0.02em;
-    }
-    .filter-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: scale(1.04);
-    }
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    /* Make hw-subject clickable */
-    .hw-subject {
-      cursor: pointer;
-      transition: opacity .15s, transform .1s;
-    }
-    .hw-subject:hover {
-      opacity: 0.75;
-      transform: scale(1.05);
-    }
-
-    /* Card hidden by filter */
-    .hw-card.hidden {
-      display: none;
-    }
-
-    /* ── Empty state ── */
-    .empty {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--muted);
-    }
-    .empty-icon { font-size: 3rem; margin-bottom: 14px; }
-    .empty h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
-    .empty p { font-size: 0.9rem; line-height: 1.6; }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 20px 0;
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 540px) {
-      .hw-card {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H0W1XZ7KLV"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-      .hw-actions {
-        grid-row: auto;
-        grid-column: auto;
-        flex-direction: row;
+      gtag("js", new Date());
+
+      gtag("config", "G-H0W1XZ7KLV");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Домашние работы</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./images/logos/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" href="./images/logos/favicon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./images/logos/apple-favicon.png"
+    />
+    <style>
+      /* ── Variables ── */
+      :root {
+        --bg: #f5f0e8;
+        --surface: #ffffff;
+        --border: #e2d9cc;
+        --text: #1a1410;
+        --muted: #7a6f63;
+        --accent: #c0623a;
+        --accent2: #4a7c5f;
+        --shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        --radius: 12px;
+        --toggle-bg: #e2d9cc;
+      }
+      [data-theme="dark"] {
+        --bg: #161310;
+        --surface: #211d19;
+        --border: #3a3228;
+        --text: #f0e8dc;
+        --muted: #9a8e80;
+        --accent: #e07a52;
+        --accent2: #6aac85;
+        --shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+        --toggle-bg: #3a3228;
+      }
+
+      /* ── Reset ── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── Layout ── */
+      .wrapper {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* ── Header ── */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+      }
+      .header-inner {
+        display: flex;
         align-items: center;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: space-between;
+        padding: 18px 0;
+        gap: 12px;
       }
-      .stats { gap: 16px; }
-      .stat-sep { display: none; }
-    }
-  </style>
-</head>
-<body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTN45CW9"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<header>
-  <div class="wrapper">
-    <div class="header-inner">
-      <div class="site-title">
-        Домашние работы
-        <span>Портфолио ученика</span>
+      .site-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      .site-title span {
+        display: block;
+        font-size: 0.68em;
+        font-weight: 400;
+        color: var(--muted);
+        font-family: "DM Sans", sans-serif;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      /* ── Theme Toggle ── */
+      .theme-btn {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--toggle-bg);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.15s;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .theme-btn:hover {
+        transform: rotate(20deg) scale(1.1);
+      }
+
+      /* ── Hero ── */
+      .hero {
+        padding: 52px 0 32px;
+      }
+      .hero-label {
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 6vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+      }
+      .hero p {
+        font-size: 0.98rem;
+        color: var(--muted);
+        max-width: 480px;
+        line-height: 1.65;
+      }
+
+      /* ── Stats bar ── */
+      .stats {
+        display: flex;
+        gap: 28px;
+        margin: 32px 0 40px;
+        padding: 18px 22px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        flex-wrap: wrap;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .stat-num {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .stat-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .stat-sep {
+        width: 1px;
+        background: var(--border);
+        align-self: stretch;
+        margin: 0 4px;
+      }
+
+      /* ── Section title ── */
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        gap: 12px;
+      }
+      .section-head h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+        font-weight: 600;
+      }
+      .section-head .count {
+        font-size: 0.78rem;
+        color: var(--muted);
+        padding: 3px 10px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+      }
+
+      /* ── Homework cards ── */
+      .hw-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding-bottom: 60px;
+      }
+      .hw-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px 22px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 10px 16px;
+        align-items: start;
+        transition:
+          box-shadow 0.2s,
+          transform 0.15s,
+          border-color 0.2s;
+        animation: fadeUp 0.4s ease both;
+      }
+      .hw-card:hover {
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+        border-color: var(--accent);
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .hw-card:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .hw-card:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .hw-card:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .hw-card:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .hw-card:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+
+      .hw-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .hw-date {
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.03em;
+      }
+      .hw-subject {
+        font-size: 0.68rem;
+        font-weight: 500;
+        padding: 2px 9px;
+        border-radius: 20px;
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+        color: var(--accent);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .hw-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.08rem;
+        font-weight: 600;
+        line-height: 1.3;
+        grid-column: 1;
+      }
+
+      /* Badges / actions column */
+      .hw-actions {
+        grid-row: 1 / 3;
+        grid-column: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 500;
+        padding: 7px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.15s,
+          color 0.15s,
+          border-color 0.15s,
+          transform 0.1s;
+      }
+      .btn:hover {
+        transform: scale(1.03);
+      }
+      .btn-view {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .btn-view:hover {
+        background: color-mix(in srgb, var(--accent) 85%, #000);
+      }
+      .btn-dl:hover {
+        background: var(--surface);
+        border-color: var(--accent2);
+        color: var(--accent2);
+      }
+      .btn-print:hover {
+        background: var(--surface);
+        border-color: var(--muted);
+      }
+
+      /* ── Filter bar ── */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .filter-btn {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.76rem;
+        font-weight: 500;
+        padding: 5px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s,
+          border-color 0.15s,
+          transform 0.1s;
+        white-space: nowrap;
+        letter-spacing: 0.02em;
+      }
+      .filter-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: scale(1.04);
+      }
+      .filter-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      /* Make hw-subject clickable */
+      .hw-subject {
+        cursor: pointer;
+        transition:
+          opacity 0.15s,
+          transform 0.1s;
+      }
+      .hw-subject:hover {
+        opacity: 0.75;
+        transform: scale(1.05);
+      }
+
+      /* Card hidden by filter */
+      .hw-card.hidden {
+        display: none;
+      }
+
+      /* ── Empty state ── */
+      .empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+      }
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 14px;
+      }
+      .empty h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+      .empty p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 20px 0;
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      /* ── Mobile ── */
+      @media (max-width: 540px) {
+        .hw-card {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+        }
+        .hw-actions {
+          grid-row: auto;
+          grid-column: auto;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+        }
+        .stats {
+          gap: 16px;
+        }
+        .stat-sep {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrapper">
+        <div class="header-inner">
+          <div class="site-title">
+            Домашние работы
+            <span>Портфолио ученика</span>
+          </div>
+          <button
+            class="theme-btn"
+            id="themeBtn"
+            title="Переключить тему"
+            aria-label="Переключить тему"
+          >
+            🌙
+          </button>
+        </div>
       </div>
-      <button class="theme-btn" id="themeBtn" title="Переключить тему" aria-label="Переключить тему">
-        🌙
-      </button>
-    </div>
-  </div>
-</header>
+    </header>
 
-<main class="wrapper">
-  <section class="hero">
-    <p class="hero-label">Учебный портфолио</p>
-    <h1>Работы<br>ученика</h1>
-    <p>Здесь собраны выполненные домашние задания. Каждую работу можно открыть, скачать или распечатать.</p>
-  </section>
+    <main class="wrapper">
+      <section class="hero">
+        <p class="hero-label">Учебный портфолио</p>
+        <h1>Работы<br />ученика</h1>
+        <p>
+          Здесь собраны выполненные домашние задания. Каждую работу можно
+          открыть, скачать или распечатать.
+        </p>
+      </section>
 
-  <div class="stats" id="statsBar">
-    <div class="stat">
-      <span class="stat-num" id="totalCount">—</span>
-      <span class="stat-label">Работ всего</span>
-    </div>
-    <div class="stat-sep"></div>
-    <div class="stat">
-      <span class="stat-num" id="monthCount">—</span>
-      <span class="stat-label">В этом месяце</span>
-    </div>
-    <div class="stat-sep"></div>
-    <div class="stat">
-      <span class="stat-num" id="lastDate">—</span>
-      <span class="stat-label">Последняя работа</span>
-    </div>
-  </div>
+      <div class="stats" id="statsBar">
+        <div class="stat">
+          <span class="stat-num" id="totalCount">—</span>
+          <span class="stat-label">Работ всего</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num" id="monthCount">—</span>
+          <span class="stat-label">В этом месяце</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num" id="lastDate">—</span>
+          <span class="stat-label">Последняя работа</span>
+        </div>
+      </div>
 
-  <div class="section-head">
-    <h2 id="sectionTitle">Все работы</h2>
-    <span class="count" id="listCount">0 файлов</span>
-  </div>
+      <div class="section-head">
+        <h2 id="sectionTitle">Все работы</h2>
+        <span class="count" id="listCount">0 файлов</span>
+      </div>
 
-  <div class="filter-bar" id="filterBar"></div>
+      <div class="filter-bar" id="filterBar"></div>
 
-  <div class="hw-list" id="hwList">
-    <div class="empty">
-      <div class="empty-icon">📂</div>
-      <h3>Загрузка...</h3>
-      <p>Список работ формируется</p>
-    </div>
-  </div>
-</main>
+      <div class="hw-list" id="hwList">
+        <div class="empty">
+          <div class="empty-icon">📂</div>
+          <h3>Загрузка...</h3>
+          <p>Список работ формируется</p>
+        </div>
+      </div>
+    </main>
 
-<footer>
-  <div class="wrapper">
-    Домашние работы · обновляется через git push
-  </div>
-</footer>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NTN45CW9');</script>
-<!-- End Google Tag Manager -->
-<script>
-/* ─── Theme toggle ─── */
-const html = document.documentElement;
-const themeBtn = document.getElementById('themeBtn');
-const saved = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', saved);
-themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    <footer>
+      <div class="wrapper">Домашние работы · обновляется через git push</div>
+    </footer>
 
-themeBtn.addEventListener('click', () => {
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
-});
+    <script>
+      /* ─── Theme toggle ─── */
+      const html = document.documentElement;
+      const themeBtn = document.getElementById("themeBtn");
+      const saved = localStorage.getItem("theme") || "light";
+      html.setAttribute("data-theme", saved);
+      themeBtn.textContent = saved === "dark" ? "☀️" : "🌙";
 
-/* ─── Homework data ───
+      themeBtn.addEventListener("click", () => {
+        const next =
+          html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        themeBtn.textContent = next === "dark" ? "☀️" : "🌙";
+      });
+
+      /* ─── Homework data ───
    Edit the array below to add new assignments.
    Fields:
      date    – "YYYY-MM-DD"   (used for sorting & display)
@@ -454,201 +566,215 @@ themeBtn.addEventListener('click', () => {
      subject – short label (e.g. "Математика")
      file    – path to PDF relative to index.html
 ─────────────────────── */
-const homeworks = [
-  {
-    date: "2026-04-12",
-    name: "Задачи по математике — тема «Скорость. Время. Расстояние»",
-    subject: "Математика",
-    file: "pdfs/2026-04-12-math.pdf"
-  },
-  {
-    date: "2026-04-12",
-    name: "Задания по русскому языку — «Местоимения»",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-12-russian.pdf"
-  },
-  {
-    date: "2026-04-09",
-    name: "Русский язык - сочинение, описание картины",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-09-russian-essay.pdf"
-  },
-  {
-    date: "2026-04-12",
-    name: "Русский язык - проверочная работа по теме «Местоимения»",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-12-russian-mest.pdf"
-  },
-  {
-    date: "2026-04-12",
-    name: "Русский язык - личные местоимения",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-12-russian-pronouns.pdf"
-  },
-  {
-    date: "2026-04-12",
-    name: "Литература - Зощенко «Золотые слова»",
-    subject: "Литература",
-    file: "pdfs/2026-04-12-literature-zolotye-slova.pdf"
-  },
-  {
-    date: "2026-04-13",
-    name: "Задачи по математике — тема «Скорость. Время. Расстояние»",
-    subject: "Математика",
-    file: "pdfs/2026-04-13-math.pdf"
-  },
-  {
-    date: "2026-04-13",
-    name: "Задания по русскому языку — «Местоимения»",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-13-russian.pdf"
-  },
-  {
-    date: "2026-04-13",
-    name: "Английский язык — «Now I know»",
-    subject: "Английский язык",
-    file: "pdfs/2026-04-13-english.pdf"
-  },
-  {
-    date: "2026-04-20",
-    name: "Проверочная работа по литературному чтению — «Зощенко. Великие путешественники»",
-    subject: "Литература",
-    file: "pdfs/2026-04-20-literature.pdf"
-  },
-  {
-    date: "2026-04-20",
-    name: "Самостоятельная работа по математике к урокам 1-2",
-    subject: "Математика",
-    file: "pdfs/2026-04-20-math.pdf"
-  },
-  {
-    date: "2026-04-20",
-    name: "Тест на тему «Государственный бюджет»",
-    subject: "Окружающий мир",
-    file: "pdfs/2026-04-20-okr.pdf"
-  },
-  {
-    date: "2026-04-20",
-    name: "Оценки за период с 30 марта - 12 апреля",
-    subject: "Оценки «Онлайн Школа №1»",
-    file: "pdfs/online-school1-grades.pdf"
-  },
-  {
-    date: "2026-04-24",
-    name: "Самостоятельная работа по математике, тема «Задачи на движение»",
-    subject: "Математика",
-    file: "pdfs/2026-04-24-math.pdf"
-  },
-  {
-    date: "2026-04-24",
-    name: "Анализ произведения — «Платонов. Цветок на земле»",
-    subject: "Литература",
-    file: "pdfs/2026-04-24-literature.pdf"
-  },
-  {
-    date: "2026-04-24",
-    name: "Домашняя работа по математике за 20-23 апреля",
-    subject: "Математика",
-    file: "pdfs/2026-04-20-23-math.pdf"
-  },
-  {
-    date: "2026-04-24",
-    name: "Домашняя работа по русскому языку за 20-23 апреля",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-20-23-russian.pdf"
-  },
-  {
-    date: "2026-04-24",
-    name: "Домашняя работа по литературе за 23 апреля",
-    subject: "Литература",
-    file: "pdfs/2026-04-20-23-literature.pdf"
-  },
-  {
-    date: "2026-04-28",
-    name: "Домашняя работа по русскому языку за 27-28 апреля",
-    subject: "Русский язык",
-    file: "pdfs/2026-04-27-28-russian.pdf"
-  },
-  {
-    date: "2026-04-28",
-    name: "Домашняя работа по английскому языку за 28 апреля",
-    subject: "Английский язык",
-    file: "pdfs/2026-04-28-english.pdf"
-  },
-  {
-    date: "2026-04-28",
-    name: "Домашняя работа по литературе за 27 апреля",
-    subject: "Литература",
-    file: "pdfs/2026-04-27-literature.pdf"
-  },
-];
+      const homeworks = [
+        {
+          date: "2026-04-12",
+          name: "Задачи по математике — тема «Скорость. Время. Расстояние»",
+          subject: "Математика",
+          file: "pdfs/2026-04-12-math.pdf",
+        },
+        {
+          date: "2026-04-12",
+          name: "Задания по русскому языку — «Местоимения»",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-12-russian.pdf",
+        },
+        {
+          date: "2026-04-09",
+          name: "Русский язык - сочинение, описание картины",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-09-russian-essay.pdf",
+        },
+        {
+          date: "2026-04-12",
+          name: "Русский язык - проверочная работа по теме «Местоимения»",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-12-russian-mest.pdf",
+        },
+        {
+          date: "2026-04-12",
+          name: "Русский язык - личные местоимения",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-12-russian-pronouns.pdf",
+        },
+        {
+          date: "2026-04-12",
+          name: "Литература - Зощенко «Золотые слова»",
+          subject: "Литература",
+          file: "pdfs/2026-04-12-literature-zolotye-slova.pdf",
+        },
+        {
+          date: "2026-04-13",
+          name: "Задачи по математике — тема «Скорость. Время. Расстояние»",
+          subject: "Математика",
+          file: "pdfs/2026-04-13-math.pdf",
+        },
+        {
+          date: "2026-04-13",
+          name: "Задания по русскому языку — «Местоимения»",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-13-russian.pdf",
+        },
+        {
+          date: "2026-04-13",
+          name: "Английский язык — «Now I know»",
+          subject: "Английский язык",
+          file: "pdfs/2026-04-13-english.pdf",
+        },
+        {
+          date: "2026-04-20",
+          name: "Проверочная работа по литературному чтению — «Зощенко. Великие путешественники»",
+          subject: "Литература",
+          file: "pdfs/2026-04-20-literature.pdf",
+        },
+        {
+          date: "2026-04-20",
+          name: "Самостоятельная работа по математике к урокам 1-2",
+          subject: "Математика",
+          file: "pdfs/2026-04-20-math.pdf",
+        },
+        {
+          date: "2026-04-20",
+          name: "Тест на тему «Государственный бюджет»",
+          subject: "Окружающий мир",
+          file: "pdfs/2026-04-20-okr.pdf",
+        },
+        {
+          date: "2026-04-20",
+          name: "Оценки за период с 30 марта - 12 апреля",
+          subject: "Оценки «Онлайн Школа №1»",
+          file: "pdfs/online-school1-grades.pdf",
+        },
+        {
+          date: "2026-04-24",
+          name: "Самостоятельная работа по математике, тема «Задачи на движение»",
+          subject: "Математика",
+          file: "pdfs/2026-04-24-math.pdf",
+        },
+        {
+          date: "2026-04-24",
+          name: "Анализ произведения — «Платонов. Цветок на земле»",
+          subject: "Литература",
+          file: "pdfs/2026-04-24-literature.pdf",
+        },
+        {
+          date: "2026-04-24",
+          name: "Домашняя работа по математике за 20-23 апреля",
+          subject: "Математика",
+          file: "pdfs/2026-04-20-23-math.pdf",
+        },
+        {
+          date: "2026-04-24",
+          name: "Домашняя работа по русскому языку за 20-23 апреля",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-20-23-russian.pdf",
+        },
+        {
+          date: "2026-04-24",
+          name: "Домашняя работа по литературе за 23 апреля",
+          subject: "Литература",
+          file: "pdfs/2026-04-20-23-literature.pdf",
+        },
+        {
+          date: "2026-04-28",
+          name: "Домашняя работа по русскому языку за 27-28 апреля",
+          subject: "Русский язык",
+          file: "pdfs/2026-04-27-28-russian.pdf",
+        },
+        {
+          date: "2026-04-28",
+          name: "Домашняя работа по английскому языку за 28 апреля",
+          subject: "Английский язык",
+          file: "pdfs/2026-04-28-english.pdf",
+        },
+        {
+          date: "2026-04-28",
+          name: "Домашняя работа по литературе за 27 апреля",
+          subject: "Литература",
+          file: "pdfs/2026-04-27-literature.pdf",
+        },
+      ];
 
-/* ─── Filter state ─── */
-let activeFilter = 'all';
+      /* ─── Filter state ─── */
+      let activeFilter = "all";
 
-/* ─── Build filter bar ─── */
-function buildFilterBar() {
-  const subjects = ['all', ...new Set(homeworks.map(h => h.subject).sort())];
-  const bar = document.getElementById('filterBar');
-  bar.innerHTML = subjects.map(s => `
-    <button class="filter-btn${s === 'all' ? ' active' : ''}"
+      /* ─── Build filter bar ─── */
+      function buildFilterBar() {
+        const subjects = [
+          "all",
+          ...new Set(homeworks.map((h) => h.subject).sort()),
+        ];
+        const bar = document.getElementById("filterBar");
+        bar.innerHTML = subjects
+          .map(
+            (s) => `
+    <button class="filter-btn${s === "all" ? " active" : ""}"
             data-subject="${s}"
             onclick="setFilter('${s}')">
-      ${s === 'all' ? 'Все работы' : s}
-    </button>`).join('');
-}
+      ${s === "all" ? "Все работы" : s}
+    </button>`,
+          )
+          .join("");
+      }
 
-function setFilter(subject) {
-  activeFilter = subject;
+      function setFilter(subject) {
+        activeFilter = subject;
 
-  /* Update buttons */
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.subject === subject);
-  });
+        /* Update buttons */
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.subject === subject);
+        });
 
-  /* Update section title */
-  document.getElementById('sectionTitle').textContent =
-    subject === 'all' ? 'Все работы' : subject;
+        /* Update section title */
+        document.getElementById("sectionTitle").textContent =
+          subject === "all" ? "Все работы" : subject;
 
-  /* Show/hide cards */
-  const cards = document.querySelectorAll('.hw-card');
-  let visible = 0;
-  cards.forEach(card => {
-    const match = subject === 'all' || card.dataset.subject === subject;
-    card.classList.toggle('hidden', !match);
-    if (match) visible++;
-  });
+        /* Show/hide cards */
+        const cards = document.querySelectorAll(".hw-card");
+        let visible = 0;
+        cards.forEach((card) => {
+          const match = subject === "all" || card.dataset.subject === subject;
+          card.classList.toggle("hidden", !match);
+          if (match) visible++;
+        });
 
-  document.getElementById('listCount').textContent =
-    visible + ' ' + plural(visible, 'файл', 'файла', 'файлов');
-}
+        document.getElementById("listCount").textContent =
+          visible + " " + plural(visible, "файл", "файла", "файлов");
+      }
 
-/* ─── Render ─── */
-function formatDate(str) {
-  const d = new Date(str + 'T00:00:00');
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-}
+      /* ─── Render ─── */
+      function formatDate(str) {
+        const d = new Date(str + "T00:00:00");
+        return d.toLocaleDateString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      }
 
-function renderList() {
-  const sorted = [...homeworks].sort((a, b) => b.date.localeCompare(a.date));
-  const list = document.getElementById('hwList');
-  const now = new Date();
-  const thisMonth = now.getMonth();
-  const thisYear = now.getFullYear();
+      function renderList() {
+        const sorted = [...homeworks].sort((a, b) =>
+          b.date.localeCompare(a.date),
+        );
+        const list = document.getElementById("hwList");
+        const now = new Date();
+        const thisMonth = now.getMonth();
+        const thisYear = now.getFullYear();
 
-  if (sorted.length === 0) {
-    list.innerHTML = `
+        if (sorted.length === 0) {
+          list.innerHTML = `
       <div class="empty">
         <div class="empty-icon">📂</div>
         <h3>Пока нет работ</h3>
         <p>Добавьте PDF-файлы и обновите массив <code>homeworks</code> в index.html</p>
       </div>`;
-    return;
-  }
+          return;
+        }
 
-  list.innerHTML = sorted.map(hw => {
-    const d = new Date(hw.date + 'T00:00:00');
-    return `
+        list.innerHTML = sorted
+          .map((hw) => {
+            const d = new Date(hw.date + "T00:00:00");
+            return `
     <div class="hw-card" data-subject="${hw.subject}">
       <div class="hw-meta">
         <span class="hw-date">${formatDate(hw.date)}</span>
@@ -670,37 +796,49 @@ function renderList() {
         </button>
       </div>
     </div>`;
-  }).join('');
+          })
+          .join("");
 
-  /* Stats */
-  const monthHw = sorted.filter(hw => {
-    const d = new Date(hw.date + 'T00:00:00');
-    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
-  });
-  document.getElementById('totalCount').textContent = sorted.length;
-  document.getElementById('monthCount').textContent = monthHw.length;
-  document.getElementById('lastDate').textContent = formatDate(sorted[0].date).split(' ').slice(0,2).join(' ');
-  document.getElementById('listCount').textContent = sorted.length + ' ' + plural(sorted.length, 'файл','файла','файлов');
-}
+        /* Stats */
+        const monthHw = sorted.filter((hw) => {
+          const d = new Date(hw.date + "T00:00:00");
+          return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+        });
+        document.getElementById("totalCount").textContent = sorted.length;
+        document.getElementById("monthCount").textContent = monthHw.length;
+        document.getElementById("lastDate").textContent = formatDate(
+          sorted[0].date,
+        )
+          .split(" ")
+          .slice(0, 2)
+          .join(" ");
+        document.getElementById("listCount").textContent =
+          sorted.length +
+          " " +
+          plural(sorted.length, "файл", "файла", "файлов");
+      }
 
-function plural(n, a, b, c) {
-  const m = n % 100;
-  if (m >= 11 && m <= 19) return c;
-  const k = n % 10;
-  if (k === 1) return a;
-  if (k >= 2 && k <= 4) return b;
-  return c;
-}
+      function plural(n, a, b, c) {
+        const m = n % 100;
+        if (m >= 11 && m <= 19) return c;
+        const k = n % 10;
+        if (k === 1) return a;
+        if (k >= 2 && k <= 4) return b;
+        return c;
+      }
 
-function printPdf(url) {
-  const w = window.open(url, '_blank');
-  if (w) {
-    w.addEventListener('load', () => { w.focus(); w.print(); });
-  }
-}
+      function printPdf(url) {
+        const w = window.open(url, "_blank");
+        if (w) {
+          w.addEventListener("load", () => {
+            w.focus();
+            w.print();
+          });
+        }
+      }
 
-buildFilterBar();
-renderList();
-</script>
-</body>
+      buildFilterBar();
+      renderList();
+    </script>
+  </body>
 </html>

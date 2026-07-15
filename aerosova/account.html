@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Личный кабинет - Аэросова</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body class="account-page">
+    <header class="topbar">
+      <a class="brand" href="./index.html" data-page-link aria-label="Аэросова">
+        <span class="brand-mark">A</span>
+        <span>
+          <strong>Аэросова</strong>
+          <small>личный кабинет</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="./index.html" data-page-link>Купить билет</a>
+        <a href="./account.html" aria-current="page">Кабинет</a>
+      </nav>
+      <button class="icon-button menu-toggle" type="button" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main class="account-main">
+      <section class="account-hero">
+        <p class="eyebrow">Пассажир</p>
+        <h1>Личный кабинет</h1>
+        <p>Просмотр заказов, регистрация на рейс и посадочные талоны.</p>
+      </section>
+
+      <section class="account-section">
+        <div class="account-panel">
+          <div class="account-card">
+            <span>Профиль</span>
+            <strong id="accountName">Гость Аэросовы</strong>
+            <small id="accountEmail">Купите билет, чтобы создать демо-профиль.</small>
+          </div>
+          <div class="orders-list" id="ordersList"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="page-loader" id="pageLoader" hidden>
+      <div>
+        <span class="loader-ring"></span>
+        <strong>Аэросова загружает страницу</strong>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" hidden>Регистрация на рейс завершена.</div>
+    <script src="./account.js"></script>
+  </body>
+</html>

@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Аэросова - поиск и бронирование авиабилетов</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body class="home-page">
+    <header class="topbar">
+      <a class="brand" href="#search" aria-label="Аэросова">
+        <span class="brand-mark">A</span>
+        <span>
+          <strong>Аэросова</strong>
+          <small>умные перелеты</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#search">Купить билет</a>
+        <a href="#offers">Акции</a>
+        <a href="#services">Сервисы</a>
+        <a href="./account.html" data-page-link>Кабинет</a>
+        <a href="#contacts">Помощь</a>
+      </nav>
+      <button class="icon-button menu-toggle" type="button" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" id="search">
+        <div class="hero-carousel" id="offers" data-carousel aria-label="Акции и направления">
+          <button class="carousel-control prev" type="button" aria-label="Предыдущий баннер">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+          <div class="slides">
+            <article class="slide active" style="--banner: url('./images/sova-banner1.png')">
+              <span>Распродажа недели</span>
+            </article>
+            <article class="slide" style="--banner: url('./images/sova-banner2.png')">
+              <span>Новый дальний маршрут</span>
+            </article>
+            <article class="slide" style="--banner: url('./images/sova-banner3.jpg')">
+              <span>Летние тарифы</span>
+            </article>
+            <article class="slide" style="--banner: url('./images/sova-banner4.jpg')">
+              <span>Выходные в небе</span>
+            </article>
+            <article class="slide" style="--banner: url('./images/banner-sah.jpg')">
+              <span>Отпуск на Сахалине</span>
+            </article>
+          </div>
+          <button class="carousel-control next" type="button" aria-label="Следующий баннер">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+          <div class="carousel-dots" role="tablist" aria-label="Выбор баннера">
+            <button class="active" type="button" aria-label="Показать первый баннер"></button>
+            <button type="button" aria-label="Показать второй баннер"></button>
+            <button type="button" aria-label="Показать третий баннер"></button>
+            <button type="button" aria-label="Показать четвертый баннер"></button>
+          </div>
+        </div>
+        <div class="hero-content">
+          <div class="hero-copy">
+            <p class="eyebrow">Авиабилеты по России и миру</p>
+            <h1>Аэросова</h1>
+            <p>Выбирайте рейс, тариф и полезные услуги в одном быстром бронировании.</p>
+          </div>
+
+          <form class="search-panel" id="flightSearch">
+            <div class="trip-type" role="group" aria-label="Тип поездки">
+              <label>
+                <input type="radio" name="trip" value="oneway" checked>
+                <span>В одну сторону</span>
+              </label>
+              <label>
+                <input type="radio" name="trip" value="roundtrip">
+                <span>Туда и обратно</span>
+              </label>
+            </div>
+
+            <div class="search-grid">
+              <label class="field from-country-field">
+                <span>Страна вылета</span>
+                <select id="fromCountry" name="fromCountry" required>
+                  <option value="">Выберите страну</option>
+                </select>
+              </label>
+
+              <label class="field from-city-field route-city-field" hidden>
+                <span>Город вылета</span>
+                <select id="fromCity" name="fromCity" required disabled></select>
+              </label>
+
+              <button class="swap-button" type="button" id="swapRoute" aria-label="Поменять направление">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 7h11m0 0-4-4m4 4-4 4M17 17H6m0 0 4 4m-4-4 4-4"></path>
+                </svg>
+              </button>
+
+              <label class="field to-country-field">
+                <span>Страна прилета</span>
+                <select id="toCountry" name="toCountry" required>
+                  <option value="">Выберите страну</option>
+                </select>
+              </label>
+
+              <label class="field to-city-field route-city-field" hidden>
+                <span>Город прилета</span>
+                <select id="toCity" name="toCity" required disabled></select>
+              </label>
+
+              <label class="field depart-field">
+                <span>Дата вылета</span>
+                <input id="departDate" name="departDate" type="date" required>
+              </label>
+
+              <label class="field return-field" hidden>
+                <span>Дата обратно</span>
+                <input id="returnDate" name="returnDate" type="date">
+              </label>
+
+              <label class="field passenger-field">
+                <span>Пассажиры</span>
+                <select id="passengers" name="passengers">
+                  <option value="1">1 пассажир</option>
+                  <option value="2">2 пассажира</option>
+                  <option value="3">3 пассажира</option>
+                  <option value="4">4 пассажира</option>
+                  <option value="5">5 пассажиров</option>
+                </select>
+              </label>
+
+              <label class="field fare-field">
+                <span>Тариф</span>
+                <select id="fare" name="fare">
+                  <option value="Лайт">Лайт</option>
+                  <option value="Оптимум">Оптимум</option>
+                  <option value="Комфорт">Комфорт</option>
+                  <option value="Бизнес">Бизнес</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="primary-action" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10.5 20.5 13 13l7.5-2.5a1.6 1.6 0 0 0 .2-3L3.8 1.9a1.4 1.4 0 0 0-1.7 1.7L7.7 20.5a1.6 1.6 0 0 0 3-.1Z"></path>
+              </svg>
+              Найти билеты
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="results-section" aria-live="polite">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Подбор рейсов</p>
+            <h2>Доступные варианты</h2>
+          </div>
+          <p id="resultsSummary">Выберите направление и нажмите «Найти билеты».</p>
+        </div>
+        <div class="flight-results" id="flightResults"></div>
+      </section>
+
+      <section class="services" id="services">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Перед вылетом</p>
+            <h2>Сервисы Аэросовы</h2>
+          </div>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20h12a2 2 0 0 0 2-2V8H4v10a2 2 0 0 0 2 2Zm2-12V6a4 4 0 0 1 8 0v2"></path></svg>
+            <h3>Багаж</h3>
+            <p>Добавьте 10, 20 или 30 кг к выбранному тарифу перед оплатой.</p>
+          </article>
+          <article class="service-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v8m4-8v8M6 11h4m-2 0v10m8-18v18m0-18c2.2 1.6 3.4 3.8 3.4 6.2 0 2.4-1.2 4.6-3.4 6.2"></path></svg>
+            <h3>Питание</h3>
+            <p>Выберите горячее меню, детский набор или легкий перекус в полете.</p>
+          </article>
+          <article class="service-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16H7zM7 9H4m3 6H4m16-6h-3m3 6h-3"></path></svg>
+            <h3>Места</h3>
+            <p>Забронируйте окно, проход или место с увеличенным пространством для ног.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="account-section" id="account">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Пассажир</p>
+            <h2>Личный кабинет</h2>
+          </div>
+          <p>Здесь появляются демо-заказы после бронирования билетов.</p>
+        </div>
+        <div class="account-panel">
+          <div class="account-card">
+            <span>Профиль</span>
+            <strong id="accountName">Гость Аэросовы</strong>
+            <small id="accountEmail">Оформите первый билет, чтобы создать профиль.</small>
+          </div>
+          <div class="orders-list" id="ordersList"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="contacts">
+      <span>© 2026 Аэросова</span>
+      <a href="tel:+78005550105">8 800 555-01-05</a>
+      <a href="mailto:hello@aerosova.demo">hello@aerosova.demo</a>
+    </footer>
+
+    <div class="modal" id="bookingModal" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+        <button class="icon-button close-modal" type="button" data-close-modal aria-label="Закрыть бронирование">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="booking-head">
+          <p class="eyebrow">Бронирование</p>
+          <h2 id="bookingTitle">Оформление билета</h2>
+          <p id="bookingRoute">Выберите рейс из списка.</p>
+        </div>
+
+        <form class="booking-form" id="bookingForm">
+          <fieldset>
+            <legend>Регистрация пассажира</legend>
+            <div class="booking-grid">
+              <label class="field">
+                <span>Имя</span>
+                <input name="firstName" type="text" placeholder="Анна" required>
+              </label>
+              <label class="field">
+                <span>Фамилия</span>
+                <input name="lastName" type="text" placeholder="Соколова" required>
+              </label>
+              <label class="field">
+                <span>Email</span>
+                <input name="email" type="email" placeholder="mail@example.com" required>
+              </label>
+              <label class="field">
+                <span>Телефон</span>
+                <input name="phone" type="tel" placeholder="+7 900 000-00-00" required>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Дополнительные услуги</legend>
+            <div class="addon-list">
+              <label class="addon">
+                <input type="radio" name="baggage" value="0" data-label="Без багажа" checked>
+                <span>
+                  <strong>Без багажа</strong>
+                  <small>ручная кладь до 10 кг</small>
+                </span>
+                <b>0 ₽</b>
+              </label>
+              <label class="addon">
+                <input type="radio" name="baggage" value="1800" data-label="Багаж 20 кг">
+                <span>
+                  <strong>Багаж 20 кг</strong>
+                  <small>для чемодана в отпуск</small>
+                </span>
+                <b>1 800 ₽</b>
+              </label>
+              <label class="addon">
+                <input type="radio" name="baggage" value="3200" data-label="Багаж 30 кг">
+                <span>
+                  <strong>Багаж 30 кг</strong>
+                  <small>для долгой поездки</small>
+                </span>
+                <b>3 200 ₽</b>
+              </label>
+            </div>
+
+            <div class="addon-row">
+              <label class="toggle">
+                <input type="checkbox" name="meal" value="950" data-label="Горячее питание">
+                <span>Горячее питание</span>
+                <b>950 ₽</b>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" name="priority" value="700" data-label="Приоритетная посадка">
+                <span>Приоритетная посадка</span>
+                <b>700 ₽</b>
+              </label>
+            </div>
+
+            <label class="field">
+              <span>Место в салоне</span>
+              <select name="seat">
+                <option value="0" data-label="Автоматически">Автоматически, 0 ₽</option>
+                <option value="600" data-label="У окна">У окна, 600 ₽</option>
+                <option value="600" data-label="У прохода">У прохода, 600 ₽</option>
+                <option value="1600" data-label="Extra Space">Extra Space, 1 600 ₽</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <aside class="summary-box">
+            <div>
+              <span>Билет</span>
+              <strong id="basePrice">0 ₽</strong>
+            </div>
+            <div>
+              <span>Доп. услуги</span>
+              <strong id="addonsPrice">0 ₽</strong>
+            </div>
+            <div class="total">
+              <span>Итого</span>
+              <strong id="totalPrice">0 ₽</strong>
+            </div>
+          </aside>
+
+          <button class="primary-action" type="submit">Забронировать</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" hidden>
+      Бронирование создано. Маршрут добавлен в личный кабинет демо-сайта.
+    </div>
+
+    <div class="page-loader" id="pageLoader" hidden>
+      <div>
+        <span class="loader-ring"></span>
+        <strong>Аэросова загружает страницу</strong>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

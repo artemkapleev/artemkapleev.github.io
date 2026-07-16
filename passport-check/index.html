@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проверка паспорта</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/tabler-icons.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #f1efe8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      max-width: 420px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e0ded5;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+
+    .icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #caeac7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-circle i {
+      font-size: 24px;
+      color: #3b6d11;
+    }
+
+    .ti-check:before {
+      content: '✓';
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .title {
+      font-weight: 500;
+      font-size: 16px;
+      margin: 0;
+      color: #3b6d11;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #5f5e5a;
+      margin: 0;
+    }
+
+    .body-row {
+      border-top: 1px solid #e0ded5;
+      padding-top: 1.25rem;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .photo-box {
+      width: 96px;
+      height: 120px;
+      border-radius: 8px;
+      background: #f1efe8;
+      border: 1px solid #e0ded5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-box i {
+      font-size: 28px;
+      color: #888780;
+    }
+
+    table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+      flex: 1;
+    }
+
+    table td {
+      padding: 4px 0;
+    }
+
+    td.label {
+      color: #5f5e5a;
+    }
+
+    td.value {
+      text-align: right;
+      color: #2c2c2a;
+    }
+
+    .status-message {
+      margin-top: 1.25rem;
+      background: #caeac7;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .status-message p {
+      font-size: 14px;
+      color: #006300;
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="icon-circle">
+        <i class="ti ti-check"></i>
+      </div>
+      <div>
+        <p class="title">Проверка пройдена</p>
+        <p class="subtitle">Паспорт проверен</p>
+      </div>
+    </div>
+
+    <div class="body-row">
+      <div class="photo-box">
+        <img src="image.png" alt="Фото совы">
+        <i class="ti ti-photo"></i>
+      </div>
+      <table>
+        <tr>
+          <td class="label">Документ</td>
+          <td class="value">настоящий</td>
+        </tr>
+        <tr>
+          <td class="label">Владелец</td>
+          <td class="value">сова</td>
+        </tr>
+        <tr>
+          <td class="label">Фото</td>
+          <td class="value">совы</td>
+        </tr>
+        <tr>
+          <td class="label">Имя</td>
+          <td class="value">Кая</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="status-message">
+      <p>Паспорт проверен, пасспорт настоящий, принаджежит сове и фото совы.</p>
+    </div>
+  </div>
+</body>
+
+</html>
